@@ -1,11 +1,11 @@
 pipeline {
-  agent any
-    //docker {
-      //sh 'docker login -u devopsveera -p Veera123@'
+  agent {
+    docker {
+      sh 'docker login -u devopsveera -p Veera123@'
       //image 'devopsveera/ultimate-cicd-pipeline:v2'
       //args '--user root -v /var/run/docker.sock:/var/run/docker.sock' // mount Docker socket to access the host's Docker daemon
-    //}
-  //}
+    }
+  }
   stages {
     stage('Checkout') {
       steps {
