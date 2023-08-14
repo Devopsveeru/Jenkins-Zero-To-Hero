@@ -31,19 +31,21 @@ pipeline {
       }
     }
     stage('Build and Push Docker Image') {
-      environment {
-        DOCKER_IMAGE = "devopsveera/ultimate-cicd-pipeline:${BUILD_NUMBER}"
-        DOCKERFILE_LOCATION = "java-maven-sonar-argocd-helm-k8s/spring-boot-app/Dockerfile"
-        REGISTRY_CREDENTIALS = credentials(' ')
-      }
+      //environment {
+        //DOCKER_IMAGE = "devopsveera/ultimate-cicd-pipeline:${BUILD_NUMBER}"
+        //DOCKERFILE_LOCATION = "java-maven-sonar-argocd-helm-k8s/spring-boot-app/Dockerfile"
+        //REGISTRY_CREDENTIALS = credentials(' ')
+      //}
       steps {
         script {
             sh 'docker login -u devopsveera -p Veera123@'
-            sh 'cd java-maven-sonar-argocd-helm-k8s/spring-boot-app && docker build -t ${DOCKER_IMAGE} .'
-            def dockerImage = docker.image("${DOCKER_IMAGE}")
-            docker.withRegistry(' ', registryCredential ) {
-                dockerImage.push()
-            }
+            sh 'cd java-maven-sonar-argocd-helm-k8s/spring-boot-app && docker build -t veera-image .'
+            sh 'docker tag veera-image devopsveera:veera-image:latest'
+            sh 'docker push devopsveera:veera-image' 
+            //def dockerImage = docker.image("${DOCKER_IMAGE}")
+            //docker.withRegistry(' ', registryCredential ) {
+                //dockerImage.push()
+            //}
         }
       }
     }
